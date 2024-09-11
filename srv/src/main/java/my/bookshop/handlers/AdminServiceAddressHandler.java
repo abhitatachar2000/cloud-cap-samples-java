@@ -2,6 +2,8 @@ package my.bookshop.handlers;
 
 import static cds.gen.adminservice.AdminService_.ADDRESSES;
 
+import com.sap.cds.services.request.UserInfo;
+import org.json.JSONObject;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -64,6 +66,7 @@ public class AdminServiceAddressHandler implements EventHandler {
 	// Delegate ValueHelp requests to S/4 backend, fetching current user's addresses from there
 	@On(entity = Addresses_.CDS_NAME)
 	public void readAddresses(CdsReadEventContext context) {
+		logger.info(getUserInfo(context));
 		if(context.getCqn().ref().segments().size() != 1) {
 			return; // no value help request
 		}
@@ -149,6 +152,16 @@ public class AdminServiceAddressHandler implements EventHandler {
 			// update local replicas with changes from S/4
 			db.run(Upsert.into(ADDRESSES).entries(replicas));
 		}
+	}
+
+	private String getUserInfo(CdsReadEventContext context) {
+		JSONObject userInfo = new JSONObject();
+		UserInfo user = context.getUserInfo();
+		userInfo.append("userID", user.getId());
+		userInfo.append("userName", user.getName());
+		userInfo.append("userRoles", user.getRoles());
+		userInfo.append("tenant", user.getTenant());
+		return userInfo.toString();
 	}
 
 }
