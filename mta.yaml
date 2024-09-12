@@ -1,6 +1,6 @@
 _schema-version: '2.1'
 ID: bookshop-mt
-version: 1.0.0
+version: 1.0.4
 description: "Multitenant Bookshop CAP Java Project with UI"
 parameters:
   enable-parallel-deployments: true
@@ -133,3 +133,31 @@ resources:
     parameters:
       service: application-logs
       service-plan: lite
+  - name: bookshop-mt-ias
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: identity
+      service-plan: application
+      key-length: 2048
+      validity: 7
+      validity-type: DAYS
+      config:
+        xsappname: bookshop-mt-${org}-${space}
+        oauth2-configuration:
+          credential-types: "x509"
+          redirect-uris:
+            - https://*.${default-domain}/login/callback
+            - https://*.${default-domain}/login/callback?authType=ias
+            - https://*.${default-domain}/login/callback?scope=openid
+            - https://*.${default-domain}/login/oauth2/code/*
+            - https://*.internal.${default-domain}/node/signin-oidc/*
+            - http://localhost:5000/login/callback?authType=ias
+          token-policy:
+            token-validity: 1800
+            refresh-validity: 7776000
+            refresh-parallel: 3
+            refresh-usage-after-renewal: off
+            access-token-format: default
+        xsuaa-cross-consumption: true
+        display-name: sci-migration-${org}-${space}
+        multi-tenant: true

@@ -22,6 +22,8 @@ node/
 node_modules/
 
 .mta/
+mta_archives/
+Makefile_*
 
 *.log*
 gc_history*
