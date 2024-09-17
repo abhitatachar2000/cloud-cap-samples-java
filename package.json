@@ -1,0 +1,19 @@
+{
+  "name": "cloud-cap-samples-java",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cds run"
+  },
+  "dependencies": {
+    "@sap/cds": "^7.9.5",
+    "@sap/cds-mtxs": "^1.0.0",
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -15,6 +15,8 @@
 
 	<properties>
 		<sidecar.dir>../mtx/sidecar</sidecar.dir>
+		<sap.cloud.security.ams.version>0.37.0</sap.cloud.security.ams.version>
+    	<cloud-authorization-cap-client-tools.version>0.7.2</cloud-authorization-cap-client-tools.version>
 	</properties>
 
 	<dependencies>
